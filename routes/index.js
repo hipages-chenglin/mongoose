@@ -2,14 +2,13 @@ var mongoose = require('mongoose');
 var User     = mongoose.model('User');
 var fs = require('fs');
 
-function isBlank(str) {
-  return (!str || /^\s*$/.test(str));
-}
 exports.current_user = function (req, res, next) {
   next();
 };
 
-
+function isBlank(str) {
+  return (!str || /^\s*$/.test(str));
+}
 
 const users = [
   // You know password for the user.
@@ -28,14 +27,24 @@ function findUser(auth) {
 }
 ///////////////////////////////////////////////////////////////////////////////
 
-
-
+function sanitize(string) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
+}
 exports.index = function (req, res, next) {
   console.log(req.body);
-
-  var username =  req.body.username;
-  var password =  req.body.password;
+  var username =  sanitize(req.body.username);
+  var password =  sanitize(req.body.password);
   var flag;
+
   fs.readFile('./flag', function (err, data) {
     if (err) {
       throw err;
@@ -57,7 +66,6 @@ exports.index = function (req, res, next) {
       });
     }
   });
-
 };
 
 
