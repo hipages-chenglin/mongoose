@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var fs = require('fs');
+var limit = require("express-limit").limit;
 
 exports.current_user = function (req, res, next) {
     next();
@@ -47,14 +48,17 @@ exports.index = function (req, res, next) {
     var password = req.body.password;
     var flag;
 
-    fs.readFile('./flag', function (err, data) {
+    fs.readFile('./flag', limit({
+        max: 5, // 5 requests
+        period: 60 * 1000, // per minute (60 seconds)
+    }), function (err, data) {
         if (err) {
             throw err;
         }
         flag = data;
     });
 
- 
+
     User.find({username: sanitize(username), password: sanitize(password)}, function (err, users) {
         if (users.length > 0) {
             return res.render('index', {

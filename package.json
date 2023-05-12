@@ -17,6 +17,7 @@
     "ejs-locals": "1.0.2",
     "errorhandler": "1.4.3",
     "express": "4.17.3",
+    "express-limit": "^1.0.0",
     "jquery": "^3.5.0",
     "method-override": "latest",
     "mongoose": "^7.1.1",
