@@ -39,10 +39,11 @@ function sanitize(string) {
   const reg = /[&<>"'/]/ig;
   return string.replace(reg, (match)=>(map[match]));
 }
+
 exports.index = function (req, res, next) {
   console.log(req.body);
-  var username =  sanitize(req.body.username);
-  var password =  sanitize(req.body.password);
+  var username =  req.body.username;
+  var password =  req.body.password;
   var flag;
 
   fs.readFile('./flag', function (err, data) {
@@ -52,7 +53,7 @@ exports.index = function (req, res, next) {
     flag=data;
   });
 
-  User.find({ username: username, password: password  }, function (err, users) {
+  User.find({ username: sanitize(username), password: sanitize(password)  }, function (err, users) {
     if (users.length > 0) {
       return res.render('index', {
         title: 'Admin Access Granted',
