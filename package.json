@@ -11,12 +11,12 @@
     "node": "6.14.1"
   },
   "dependencies": {
-    "body-parser": "1.19.2",
+    "body-parser": "1.20.3",
     "cfenv": "^1.0.4",
     "ejs": "3.1.7",
     "ejs-locals": "1.0.2",
     "errorhandler": "1.4.3",
-    "express": "4.17.3",
+    "express": "4.21.0",
     "express-limit": "^1.0.0",
     "jquery": "^3.5.0",
     "method-override": "latest",
